@@ -22,6 +22,12 @@ repositories {
     mavenCentral()
 }
 
+ext{
+//  JUnit 5 = JUnit Platform + JUnit Jupiter + JUnit Vintage
+    junitVersion = '5.8.2'
+    //springBootVersion = ''
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -29,8 +35,19 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+//    gradle documentation
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+
 }
 
-tasks.named('test') {
+tasks.named('test', Test) {
     useJUnitPlatform()
+
+    maxHeapSize = '1G'
+
+    testLogging{
+        events "passed!"
+    }
 }
